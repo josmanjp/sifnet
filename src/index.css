@@ -1,6 +1,56 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-/* Estilos menores que replican algunos detalles del sitio original */
-html, body, #root { height: 100%; }
-body { font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial; }
+
+
+/* Import original CSS to preserve look */
+@import url('../public/assets/css/templatemo-seo-dream.css');
+@import url('../public/assets/css/animated.css');
+@import url('../public/assets/css/owl.css');
+@import url('../public/assets/css/fontawesome.css');
+
+
+/* Minor overrides for Tailwind integration */
+body { background: #fff; }
+
+/* Custom animations */
+@keyframes bounce-in {
+  0% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  60% {
+    transform: translateY(5px);
+    opacity: 1;
+  }
+  80% {
+    transform: translateY(-2px);
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.animate-bounce-in {
+  animation: bounce-in 0.8s ease-out forwards;
+}
+
+/* Pulse animation - equivalente a Tailwind's animate-pulse */
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.animate-pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Variante personalizada de pulse más rápida */
+.animate-pulse-fast {
+  animation: pulse 1s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}

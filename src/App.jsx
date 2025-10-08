@@ -1,35 +1,40 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React, { useEffect } from 'react'
+import { Routes, Route, useLocation } from 'react-router-dom'
+import HomePage from './pages/HomePage'
+import CatalogoPage from './pages/CatalogPage'
+import CarPage from './pages/CarPage'
+import { CartProvider } from './context/CartContext'
 
-function App() {
-  const [count, setCount] = useState(0)
+// Componente para manejar el scroll automático
+function ScrollToHash() {
+  const location = useLocation()
 
-  return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+  useEffect(() => {
+    if (location.hash) {
+      const timer = setTimeout(() => {
+        const sectionId = location.hash.replace('#', '')
+        const element = document.getElementById(sectionId)
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth' })
+        }
+      }, 300)
+      
+      return () => clearTimeout(timer)
+    }
+  }, [location])
+
+  return null
 }
 
-export default App
+export default function App(){
+return (
+<CartProvider>
+  <ScrollToHash />
+  <Routes>
+    <Route path="/" element={<HomePage />} />
+    <Route path="/catalog" element={<CatalogoPage />} />
+    <Route path="/car" element={<CarPage />} />
+  </Routes>
+</CartProvider>
+)
+}
