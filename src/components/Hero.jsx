@@ -20,9 +20,9 @@ export default function Hero(){
                             <h4 className="font-bold">24/7</h4>
                         </div>
                     </div>
-                    <h2 className="text-3xl md:text-5xl font-bold">Programador de Apps en Windows y Web Full Stack Jr.</h2>
+                    <h2 className="text-3xl md:text-5xl font-bold">Desarrollo de Apps para Windows,  Web y Apps Móviles</h2>
                     <div className="mt-6">
-                            <a href="#contact" className="inline-block text-white px-6 py-3 rounded" style={{ backgroundColor: '#2f4870' }}>Obtenga su Presupuesto</a>
+                        <a href="#contact" className="inline-block text-white px-6 py-3 rounded" style={{ backgroundColor: '#2f4870' }}>Obtenga su Presupuesto</a>
                     </div>
                 </motion.div>
                 <motion.div initial={{opacity:0, x:30}} animate={{opacity:1, x:0}} transition={{duration:0.8}}>
