@@ -1,15 +1,19 @@
 import React, { useEffect, useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useCart } from '../context/CartContext'
+import { useAuth } from '../context/AuthContext'
+import LoginModal from './LoginModal'
 
 export default function Header(){
-    const { cart } = useCart()
+    const { cart, getTotalItems } = useCart()
+    const { user, isAuthenticated, login, logout } = useAuth()
     const location = useLocation()
     const navigate = useNavigate()
-    const totalItems = cart.reduce((s,i)=> s + (i.quantity||1), 0)
+    const totalItems = getTotalItems()
     const [isVisible, setIsVisible] = useState(false)
     const [scrolled, setScrolled] = useState(false)
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+    const [loginModalOpen, setLoginModalOpen] = useState(false)
 
     // Función para manejar navegación inteligente
     const handleNavClick = (e, sectionId) => {
@@ -29,6 +33,19 @@ export default function Header(){
             }
         }
     }
+
+    const handleLoginClick = (e) => {
+        e.preventDefault()
+        setMobileMenuOpen(false)
+        setLoginModalOpen(true)
+    }
+
+    const handleLogout = () => {
+        logout()
+        setMobileMenuOpen(false)
+    }
+
+
     useEffect(() => {
         // Triggear la animación después de que el componente se monte
         const timer = setTimeout(() => {
@@ -122,6 +139,26 @@ export default function Header(){
                     <a href="#products" onClick={(e) => handleNavClick(e, 'products')} className="text-white hover:text-blue-200 transition-colors duration-300 hover:scale-105 transform">Catalogo</a>
                     <a href="#contact" onClick={(e) => handleNavClick(e, 'contact')} className="text-white hover:text-blue-200 transition-colors duration-300 hover:scale-105 transform">Contacto</a>
                     <Link to="/catalog" className="text-white hover:text-blue-200 transition-colors duration-300 hover:scale-105 transform">Ver todo</Link>
+                    
+                    {isAuthenticated() ? (
+                        <div className="flex items-center gap-4">
+                            <span className="text-white text-sm">Hola, {user?.nombre}</span>
+                            <button 
+                                onClick={handleLogout}
+                                className="text-white hover:text-blue-200 transition-colors duration-300 hover:scale-105 transform"
+                            >
+                                Salir
+                            </button>
+                        </div>
+                    ) : (
+                        <button 
+                            onClick={handleLoginClick}
+                            className="text-white hover:text-blue-200 transition-colors duration-300 hover:scale-105 transform"
+                        >
+                            Ingresar
+                        </button>
+                    )}
+                    
                     <Link to="/car" className="relative text-white hover:text-blue-200 transition-all duration-300 hover:scale-110 transform">
                         <svg className="w-6 h-6 md:w-7 md:h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-2.5 5M7 13l2.5 5m0 0L17 21" />
@@ -178,6 +215,28 @@ export default function Header(){
                     >
                         🔍 Ver todo
                     </Link>
+                    
+                    {isAuthenticated() ? (
+                        <>
+                            <div className="py-2 border-b border-blue-800/30">
+                                <span className="text-white text-sm">👤 Hola, {user?.nombre}</span>
+                            </div>
+                            <button 
+                                onClick={handleLogout}
+                                className="block w-full text-left text-white hover:text-blue-200 transition-colors duration-300 py-2 border-b border-blue-800/30"
+                            >
+                                🚪 Cerrar Sesión
+                            </button>
+                        </>
+                    ) : (
+                        <button 
+                            onClick={handleLoginClick}
+                            className="block w-full text-left text-white hover:text-blue-200 transition-colors duration-300 py-2 border-b border-blue-800/30"
+                        >
+                            🔐 Iniciar Sesión
+                        </button>
+                    )}
+                    
                     <Link 
                         to="/car" 
                         onClick={() => setMobileMenuOpen(false)}
@@ -197,6 +256,12 @@ export default function Header(){
                     </Link>
                 </nav>
             </div>
+
+            {/* Modal de Login */}
+            <LoginModal 
+                isOpen={loginModalOpen}
+                onClose={() => setLoginModalOpen(false)}
+            />
         </header>
     )
 }
