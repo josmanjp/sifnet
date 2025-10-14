@@ -1,17 +1,40 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
+import LoginModal from '../components/LoginModal'
 import { useCart } from '../context/CartContext'
+import { useAuth } from '../context/AuthContext'
 import { sendOrderWhatsApp } from '../utils/api'
 
 export default function CarPage(){
 const { cart, removeFromCart, clearCart } = useCart()
+const { isAuthenticated, login } = useAuth()
+const [loginModalOpen, setLoginModalOpen] = useState(false)
 const total = cart.reduce((s,i)=> s + (i.price * (i.quantity||1)), 0)
 
-
 const handlePayNow = async ()=>{
-await sendOrderWhatsApp(cart, total)
-clearCart()
+    // Verificar si el usuario está autenticado
+    if (!isAuthenticated()) {
+        setLoginModalOpen(true)
+        return
+    }
+    
+    // Proceder con el pago si está autenticado
+    await sendOrderWhatsApp(cart, total)
+    clearCart()
+}
+
+const processPayment = async () => {
+    // Esta función procesa el pago sin verificar autenticación
+    await sendOrderWhatsApp(cart, total)
+    clearCart()
+}
+
+const handleLoginSuccess = (userData) => {
+    login(userData)
+    setLoginModalOpen(false)
+    // Después del login exitoso, proceder con el pago
+    processPayment()
 }
 
 return (
@@ -48,6 +71,13 @@ return (
             </div>
         </main>
         <Footer />
+        
+        {/* Modal de Login */}
+        <LoginModal 
+            isOpen={loginModalOpen}
+            onClose={() => setLoginModalOpen(false)}
+            onLogin={handleLoginSuccess}
+        />
     </div>
 )
 }

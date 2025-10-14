@@ -1,14 +1,36 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
-import { products as seed } from '../utils/Products'
 import ProductCard from '../components/ProductCard'
-
+import {fetchProducts} from '../utils/api'
 
 export default function CatalogoPage(){
     const [q, setQ] = useState('')
     const [category, setCategory] = useState('all')
-    const filtered = seed.filter(p=> (category==='all' || p.category===category) && p.title.toLowerCase().includes(q.toLowerCase()))
+    const [products, setProducts] = useState([])
+    const [loading, setLoading] = useState(true)
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                setLoading(true)
+                const data = await fetchProducts()
+                setProducts(data || [])
+            } catch (error) {
+                console.error('Error fetching products:', error)
+                setProducts([])
+            } finally {
+                setLoading(false)
+            }
+        }
+        fetchData()
+    }, [])
+
+    const filtered = products.filter(p=> {
+        const matchesCategory = category === 'all' || p.categoria === category || p.category === category
+        const matchesSearch = (p.nombre || p.title || p.name || '').toLowerCase().includes(q.toLowerCase())
+        return matchesCategory && matchesSearch
+    })    
     return (
         <div className="min-h-screen flex flex-col">
             <Header />
@@ -24,9 +46,25 @@ export default function CatalogoPage(){
                             <option value="avanzado">Avanzado</option>
                         </select>
                         </div>
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                        {filtered.map(p=> <ProductCard key={p.id} product={p} />)}
-                    </div>
+                    
+                    {loading ? (
+                        <div className="flex justify-center items-center py-12">
+                            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-600"></div>
+                        </div>
+                    ) : (
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            {filtered.length > 0 ? (
+                                filtered.map(p=> <ProductCard key={p.id} product={p} />)
+                            ) : (
+                                <div className="col-span-full text-center py-12 text-gray-500">
+                                    {products.length === 0 ? 
+                                        "No hay productos disponibles en este momento." :
+                                        "No se encontraron productos que coincidan con tu búsqueda."
+                                    }
+                                </div>
+                            )}
+                        </div>
+                    )}
                 </div>
             </main>
             <Footer />
