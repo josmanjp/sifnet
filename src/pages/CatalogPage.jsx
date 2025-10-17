@@ -26,6 +26,9 @@ export default function CatalogoPage(){
         fetchData()
     }, [])
 
+    // Obtener categorías únicas de los productos
+    const uniqueCategories = [...new Set(products.map(p => p.categoria || p.category).filter(Boolean))]
+
     const filtered = products.filter(p=> {
         const matchesCategory = category === 'all' || p.categoria === category || p.category === category
         const matchesSearch = (p.nombre || p.title || p.name || '').toLowerCase().includes(q.toLowerCase())
@@ -41,9 +44,11 @@ export default function CatalogoPage(){
                         <input value={q} onChange={e=>setQ(e.target.value)} placeholder="Buscar..." className="border p-2 rounded" />
                         <select value={category} onChange={e=>setCategory(e.target.value)} className="border p-2 rounded">
                             <option value="all">Todas</option>
-                            <option value="basico">Básico</option>
-                            <option value="intermedio">Intermedio</option>
-                            <option value="avanzado">Avanzado</option>
+                            {uniqueCategories.map(cat => (
+                                <option key={cat} value={cat}>
+                                    {cat.charAt(0).toUpperCase() + cat.slice(1)}
+                                </option>
+                            ))}
                         </select>
                         </div>
                     

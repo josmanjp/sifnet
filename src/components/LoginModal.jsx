@@ -165,9 +165,7 @@ export default function LoginModal({ isOpen, onClose }) {
           email, 
           nombre, 
           telefono, 
-          password, 
-          tipo: 'usuario', 
-          plan: 1 
+          password
         }),
       });
 
