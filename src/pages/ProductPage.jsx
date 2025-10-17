@@ -246,7 +246,7 @@ export default function ProductPage() {
 
                                 <div className="text-center">
                                     <p className="text-sm text-gray-500">
-                                        Total: ${(parseFloat(product.precio || product.price || 0) * quantity).toLocaleString()} ARS
+                                        Total: ${(parseFloat(product.precio || product.price || 0) * quantity).toLocaleString()} USD
                                     </p>
                                 </div>
                             </div>
