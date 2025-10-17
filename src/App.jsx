@@ -31,17 +31,17 @@ function ScrollToHash() {
 
 export default function App(){
 return (
-<AuthProvider>
-  <CartProvider>
-    <ScrollToHash />
-    <Routes>
-      <Route path="/" element={<HomePage />} />
-      <Route path="/catalog" element={<CatalogoPage />} />
-      <Route path="/car" element={<CarPage />} />
-      <Route path="/product/:id" element={<ProductPage />} />
-    </Routes>
-    <Toaster richColors position="bottom-center" />
-  </CartProvider>
-</AuthProvider>
+  <AuthProvider>
+    <CartProvider>
+      <ScrollToHash />
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/catalog" element={<CatalogoPage />} />
+        <Route path="/car" element={<CarPage />} />
+        <Route path="/product/:id" element={<ProductPage />} />
+      </Routes>
+      <Toaster richColors position="bottom-center" />
+    </CartProvider>
+  </AuthProvider>
 )
 }

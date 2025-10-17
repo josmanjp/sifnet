@@ -1,13 +1,12 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-
 /* Import original CSS to preserve look */
 @import url('../public/assets/css/templatemo-seo-dream.css');
 @import url('../public/assets/css/animated.css');
 @import url('../public/assets/css/owl.css');
 @import url('../public/assets/css/fontawesome.css');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 
 /* Minor overrides for Tailwind integration */
