@@ -7,18 +7,25 @@ export default function ProductCard({ product }){
     const navigate = useNavigate()
     
     return (
-        <div className="bg-white p-4 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-200 h-full flex flex-col">
+        <article 
+            className="bg-white p-4 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-200 h-full flex flex-col"
+            role="article"
+            aria-labelledby={`product-title-${product.id}`}
+        >
             <div className="w-full h-48 mb-4 overflow-hidden rounded-lg bg-gray-100 flex items-center justify-center p-2">
                 <img 
-                    src={product.url_imagen || product.image} 
-                    alt={product.nombre || product.title} 
-                    className="max-w-full max-h-full object-contain hover:scale-105 transition-transform duration-300" 
+                    src={product.image_url || product.image} 
+                    alt={`Imagen del producto ${product.nombre || product.title}`}
+                    className="max-w-full max-h-full object-contain hover:scale-105 transition-transform duration-300"
+                    loading="lazy"
                 />
             </div>
             
             <div className="flex-grow">
-                <h4 className="font-semibold text-gray-900 mb-2">{product.nombre || product.title}</h4>
-                <p className="text-lg font-bold text-gray-800 mb-2">
+                <h3 id={`product-title-${product.id}`} className="font-semibold text-gray-900 mb-2">
+                    {product.nombre || product.title}
+                </h3>
+                <p className="text-lg font-bold text-gray-800 mb-2" aria-label={`Precio: ${parseFloat(product.precio || product.price || 0).toLocaleString()} pesos`}>
                     ${parseFloat(product.precio || product.price || 0).toLocaleString()}
                 </p>
                 
@@ -37,7 +44,7 @@ export default function ProductCard({ product }){
                 )}
             </div>
             
-            <div className="flex gap-2 mt-4">
+            <div className="flex gap-2 mt-4" role="group" aria-label="Acciones del producto">
                 <button 
                     onClick={() => addToCart({
                         ...product, 
@@ -45,16 +52,17 @@ export default function ProductCard({ product }){
                         name: product.nombre || product.title,
                         price: product.precio || product.price || 0
                     })} 
-                    className="flex-1 text-white px-4 py-2 rounded-lg font-medium hover:shadow-md transition-all duration-200"
+                    className="flex-1 text-white px-4 py-2 rounded-lg font-medium hover:shadow-md transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-300"
                     style={{ backgroundColor: '#2f4870' }}
                     onMouseEnter={(e) => e.target.style.backgroundColor = '#243a5e'}
                     onMouseLeave={(e) => e.target.style.backgroundColor = '#2f4870'}
+                    aria-label={`Agregar ${product.nombre || product.title} al carrito`}
                 >
-                    Agregar
+                    🛍 Agregar
                 </button>
                 <button 
                     onClick={() => navigate(`/product/${product.id}`)} 
-                    className="flex-1 px-4 py-2 rounded-lg font-medium border-2 transition-all duration-200"
+                    className="flex-1 px-4 py-2 rounded-lg font-medium border-2 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-300"
                     style={{ 
                         borderColor: '#2f4870', 
                         color: '#2f4870',
@@ -68,10 +76,11 @@ export default function ProductCard({ product }){
                         e.target.style.backgroundColor = 'transparent'
                         e.target.style.color = '#2f4870'
                     }}
+                    aria-label={`Ver detalles de ${product.nombre || product.title}`}
                 >
-                    Ver
+                    👁 Ver
                 </button>
             </div>
-        </div>
+        </article>
     )
 }
