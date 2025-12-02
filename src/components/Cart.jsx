@@ -10,7 +10,7 @@ export default function Cart(){
         const res = await sendOrderToAPI(order)
         if (res?.ok) {
             // Abrir WhatsApp con mensaje preformateado como opción de pago inmediato
-            const text = encodeURIComponent(`Hola, quiero comprar estos productos. Total: ${getFormattedTotal()}. Items: ${cart.map(i=>i.nombre || i.name).join(', ')}`)
+            const text = encodeURIComponent(`Hola, quiero comprar estos productos. Total: ${getFormattedTotal()} ${getCurrency()}. Items: ${cart.map(i=>i.nombre || i.name).join(', ')}`)
             window.open(`https://wa.me/5491123558308?text=${text}`, '_blank')
             clearCart()
         } else {
@@ -32,7 +32,7 @@ export default function Cart(){
                                     <div className="flex-1">
                                         <div className="font-semibold">{item.nombre || item.name || item.title}</div>
                                         <div className="text-sm text-gray-500">
-                                            Precio unitario: ${parseFloat(item.precio || item.price || 0).toLocaleString()}
+                                            Precio unitario: {formatPrice(item.precio || item.price || 0)}
                                         </div>
                                     </div>
                                     <div className="flex items-center gap-4">
@@ -52,7 +52,7 @@ export default function Cart(){
                                             </button>
                                         </div>
                                         <div className="font-semibold min-w-[80px] text-right">
-                                            ${(parseFloat(item.precio || item.price || 0) * (item.quantity || 1)).toLocaleString()}
+                                            {formatPrice((parseFloat(item.precio || item.price || 0) * (item.quantity || 1)))}
                                         </div>
                                         <button 
                                             onClick={() => removeFromCart(item.id)} 

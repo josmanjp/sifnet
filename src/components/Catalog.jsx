@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import Slider from 'react-slick'
 import { useCart } from '../context/CartContext'
 import {fetchProducts} from '../utils/api'
+import { formatPrice } from '../utils/currency'
 
 import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
@@ -124,7 +125,7 @@ export default function Catalog(){
                                             {p.nombre}
                                         </h4>
                                         <p className="text-lg md:text-xl font-bold text-gray-800 mb-2">
-                                            ${parseFloat(p.precio).toFixed(2)}
+                                            {formatPrice(p.precio)}
                                         </p>
                                         {p.descripcion && (
                                             <p className="text-xs md:text-sm text-gray-600 mb-3 line-clamp-2">

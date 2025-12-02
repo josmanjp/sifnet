@@ -53,14 +53,14 @@ return (
                                     <div className="text-sm text-gray-500">Cantidad: {i.quantity}</div>
                                 </div>
                                 <div className="flex items-center gap-4">
-                                    <div>${i.price * i.quantity}</div>
+                                    <div>{formatPrice(i.price * i.quantity)}</div>
                                     <button onClick={()=> removeFromCart(i.id)} className="text-red-500">✖</button>
                                 </div>
                             </li>
                             ))}
                         </ul>
                         <div className="mt-4 flex justify-between items-center">
-                            <div className="font-bold">Total: ${total}</div>
+                            <div className="font-bold">Total: {formatPrice(total)}</div>
                             <div className="flex gap-3">
                                 <button onClick={clearCart} className="px-4 py-2 bg-gray-200 rounded">Vaciar</button>
                                 <button onClick={handlePayNow} className="px-4 py-2 bg-green-600 text-white rounded">Pagar ahora</button>

@@ -7,6 +7,7 @@ import Footer from '../components/Footer'
 import { toast } from 'sonner'
 import { Trash2, Edit, Plus, X, Upload, Eye } from 'lucide-react'
 import { fetchProducts, fetchCategories, createProduct, updateProduct, deleteProduct } from '../utils/api'
+import { formatPrice, getCurrency } from '../utils/currency'
 
 export default function AdminProductosPage() {
     const { user, isAuthenticated } = useAuth()
@@ -382,7 +383,7 @@ export default function AdminProductosPage() {
                                                                 {categoria?.nombre || 'Sin categoría'}
                                                             </td>
                                                             <td className="px-4 py-4 text-sm font-medium text-gray-900" style={{ textAlign: 'right' }}>
-                                                                ${parseFloat(producto.precio).toFixed(2)}
+                                                                {formatPrice(producto.precio)}
                                                             </td>
                                                             <td className="px-4 py-4 text-center">
                                                                 <div className="flex justify-center gap-2">
@@ -447,7 +448,7 @@ export default function AdminProductosPage() {
                                                                         ID: {producto.id} | {categoria?.nombre || 'Sin categoría'}
                                                                     </p>
                                                                     <p className="text-lg font-semibold text-gray-900">
-                                                                        ${parseFloat(producto.precio).toFixed(2)}
+                                                                        {formatPrice(producto.precio)}
                                                                     </p>
                                                                     {producto.descripcion && (
                                                                         <p className="text-sm text-gray-600 mt-2 line-clamp-2">

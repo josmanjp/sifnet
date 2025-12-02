@@ -62,12 +62,7 @@ export function CartProvider({ children }){
     }
 
     const getFormattedTotal = () => {
-        return getTotalPrice().toLocaleString('es-AR', {
-            style: 'currency',
-            currency: 'USD',
-            minimumFractionDigits: 0,
-            maximumFractionDigits: 0
-        })
+        return formatPrice(getTotalPrice())
     }
 
     return (
