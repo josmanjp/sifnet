@@ -1,6 +1,7 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useCart } from '../context/CartContext'
+import { formatPrice, getCurrency } from '../utils/currency'
 
 export default function ProductCard({ product }){
     const { addToCart } = useCart()
@@ -25,8 +26,8 @@ export default function ProductCard({ product }){
                 <h3 id={`product-title-${product.id}`} className="font-semibold text-gray-900 mb-2">
                     {product.nombre || product.title}
                 </h3>
-                <p className="text-lg font-bold text-gray-800 mb-2" aria-label={`Precio: ${parseFloat(product.precio || product.price || 0).toLocaleString()} pesos`}>
-                    ${parseFloat(product.precio || product.price || 0).toLocaleString()}
+                <p className="text-lg font-bold text-gray-800 mb-2" aria-label={`Precio: ${formatPrice(product.precio || product.price || 0)} ${getCurrency()}`}>
+                    {formatPrice(product.precio || product.price || 0)}
                 </p>
                 
                 {(product.descripcion || product.description) && (

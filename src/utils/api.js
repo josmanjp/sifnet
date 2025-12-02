@@ -1,8 +1,10 @@
+import { formatPrice, getCurrency } from './currency'
+
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3006';  
 
 export async function sendOrderWhatsApp(cart, total){
     const items = cart.map(i=> `${i.title} (x${i.quantity||1})`).join(', ')
-    const text = encodeURIComponent(`Hola! Quiero comprar: ${items}. Total: $${total}`)
+    const text = encodeURIComponent(`Hola! Quiero comprar: ${items}. Total: ${formatPrice(total)} ${getCurrency()}`)
     const url = `https://wa.me/5491123558308?text=${text}`
     window.open(url, '_blank')
     return { ok: true }

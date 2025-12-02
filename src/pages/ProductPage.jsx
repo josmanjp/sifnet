@@ -6,6 +6,7 @@ import Header from '../components/Header'
 import Footer from '../components/Footer'
 import { useCart } from '../context/CartContext'
 import { fetchProducts } from '../utils/api'
+import { formatPrice, getCurrency, formatPriceForMeta } from '../utils/currency'
 
 export default function ProductPage() {
     const { id } = useParams()
@@ -101,14 +102,14 @@ export default function ProductPage() {
         <div className="min-h-screen flex flex-col bg-gray-50">
             <Helmet>
                 <title>{product.nombre || product.title} - SifNet | Detalle del Producto</title>
-                <meta name="description" content={`${product.descripcion || product.description || `Descubre ${product.nombre || product.title} en SifNet`}. Precio: $${parseFloat(product.precio || product.price || 0).toLocaleString()}.`} />
+                <meta name="description" content={`${product.descripcion || product.description || `Descubre ${product.nombre || product.title} en SifNet`}. Precio: ${formatPrice(product.precio || product.price || 0)}.`} />
                 <meta name="keywords" content={`${product.nombre || product.title}, ${product.categoria || product.category || ''}, productos tecnológicos, SifNet`} />
                 <meta property="og:title" content={`${product.nombre || product.title} - SifNet`} />
                 <meta property="og:description" content={product.descripcion || product.description || `Descubre ${product.nombre || product.title} en SifNet`} />
                 <meta property="og:image" content={product.image_url || product.image} />
                 <meta property="og:type" content="product" />
-                <meta property="product:price:amount" content={product.precio || product.price || 0} />
-                <meta property="product:price:currency" content="COP" />
+                <meta property="product:price:amount" content={formatPriceForMeta(product.precio || product.price || 0)} />
+                <meta property="product:price:currency" content={getCurrency()} />
                 <link rel="canonical" href={`https://sifnet.com/product/${product.id}`} />
             </Helmet>
             <Header />
@@ -185,9 +186,9 @@ export default function ProductPage() {
 
                                 <div className="flex items-baseline space-x-2">
                                     <span className="text-4xl font-bold text-gray-900">
-                                        $ {parseFloat(product.precio || product.price || 0).toLocaleString()}
+                                        {formatPrice(product.precio || product.price || 0)}
                                     </span>
-                                    <span className="text-lg text-gray-500">USD</span>
+                                    <span className="text-lg text-gray-500"></span>
                                 </div>
                             </div>
 
@@ -259,7 +260,7 @@ export default function ProductPage() {
 
                                 <div className="text-center">
                                     <p className="text-sm text-gray-500">
-                                        Total: ${(parseFloat(product.precio || product.price || 0) * quantity).toLocaleString()} USD
+                                        Total: {formatPrice((parseFloat(product.precio || product.price || 0) * quantity))} {getCurrency()}
                                     </p>
                                 </div>
                             </div>
