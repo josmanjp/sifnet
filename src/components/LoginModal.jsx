@@ -220,7 +220,7 @@ export default function LoginModal({ isOpen, onClose }) {
         {/* Header fijo */}
         <div className="flex-shrink-0 p-6 pt-12 pb-4">
           <div className="flex justify-center mb-4">
-            <img src={logo} alt="Logo" className="h-16 mx-auto animate-fadeIn transition-transform duration-300 hover:scale-110" />
+            <img src={logo} alt="Logo" className="h-20 w-20 object-contain animate-fadeIn transition-transform duration-300 hover:scale-110" />
           </div>
           <div className="flex justify-center mb-4">
             <h2 className="text-xl font-bold text-center" style={{ color: '#2f4870' }}>SIFnet</h2>

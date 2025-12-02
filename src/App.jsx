@@ -1,9 +1,12 @@
 import React, { useEffect } from 'react'
 import { Routes, Route, useLocation } from 'react-router-dom'
+import { HelmetProvider } from 'react-helmet-async'
 import HomePage from './pages/HomePage'
-import CatalogoPage from './pages/CatalogPage'
+import CatalogPage from './pages/CatalogPage'
 import CarPage from './pages/CarPage'
 import ProductPage from './pages/ProductPage'
+import AdminCategoriasPage from './pages/AdminCategoriasPage'
+import AdminProductosPage from './pages/AdminProductosPage'
 import { CartProvider } from './context/CartContext'
 import { AuthProvider } from './context/AuthContext'
 import { Toaster } from 'sonner';
@@ -31,17 +34,21 @@ function ScrollToHash() {
 
 export default function App(){
 return (
-  <AuthProvider>
-    <CartProvider>
-      <ScrollToHash />
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/catalog" element={<CatalogoPage />} />
-        <Route path="/car" element={<CarPage />} />
-        <Route path="/product/:id" element={<ProductPage />} />
-      </Routes>
-      <Toaster richColors position="bottom-center" />
-    </CartProvider>
-  </AuthProvider>
+  <HelmetProvider>
+    <AuthProvider>
+      <CartProvider>
+        <ScrollToHash />
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/catalog" element={<CatalogPage />} />
+          <Route path="/car" element={<CarPage />} />
+          <Route path="/product/:id" element={<ProductPage />} />
+          <Route path="/admin/categorias" element={<AdminCategoriasPage />} />
+          <Route path="/admin/productos" element={<AdminProductosPage />} />
+        </Routes>
+        <Toaster richColors position="bottom-center" />
+      </CartProvider>
+    </AuthProvider>
+  </HelmetProvider>
 )
 }

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
+import { Helmet } from 'react-helmet-async'
 import { ArrowLeft, ShoppingCart, Star, Package, Shield, Award } from 'lucide-react'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
@@ -92,15 +93,27 @@ export default function ProductPage() {
     }
 
     const productImages = [
-        product.url_imagen || product.image,
+        product.image_url || product.image,
         // Aquí podrías agregar más imágenes si las tienes
     ].filter(Boolean)
 
     return (
         <div className="min-h-screen flex flex-col bg-gray-50">
+            <Helmet>
+                <title>{product.nombre || product.title} - SifNet | Detalle del Producto</title>
+                <meta name="description" content={`${product.descripcion || product.description || `Descubre ${product.nombre || product.title} en SifNet`}. Precio: $${parseFloat(product.precio || product.price || 0).toLocaleString()}.`} />
+                <meta name="keywords" content={`${product.nombre || product.title}, ${product.categoria || product.category || ''}, productos tecnológicos, SifNet`} />
+                <meta property="og:title" content={`${product.nombre || product.title} - SifNet`} />
+                <meta property="og:description" content={product.descripcion || product.description || `Descubre ${product.nombre || product.title} en SifNet`} />
+                <meta property="og:image" content={product.image_url || product.image} />
+                <meta property="og:type" content="product" />
+                <meta property="product:price:amount" content={product.precio || product.price || 0} />
+                <meta property="product:price:currency" content="COP" />
+                <link rel="canonical" href={`https://sifnet.com/product/${product.id}`} />
+            </Helmet>
             <Header />
             
-            <main className="flex-grow pt-20">
+            <main className="flex-grow pt-20" role="main" aria-label="Detalle del producto">
                 {/* Breadcrumb */}
                 <div className="bg-white shadow-sm">
                     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">

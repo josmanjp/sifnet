@@ -14,6 +14,7 @@ export default function Header(){
     const [scrolled, setScrolled] = useState(false)
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
     const [loginModalOpen, setLoginModalOpen] = useState(false)
+    const [configDropdownOpen, setConfigDropdownOpen] = useState(false)
 
     // Función para manejar navegación inteligente
     const handleNavClick = (e, sectionId) => {
@@ -58,10 +59,13 @@ export default function Header(){
             setScrolled(isScrolled)
         }
 
-        // Manejar clic fuera del menú móvil
+        // Manejar clic fuera del menú móvil y dropdown de configuración
         const handleClickOutside = (event) => {
             if (mobileMenuOpen && !event.target.closest('header')) {
                 setMobileMenuOpen(false)
+            }
+            if (configDropdownOpen && !event.target.closest('.config-dropdown')) {
+                setConfigDropdownOpen(false)
             }
         }
 
@@ -118,9 +122,11 @@ export default function Header(){
                     
                     {/* Botón hamburguesa */}
                     <button 
-                        className="text-white text-2xl focus:outline-none transition-transform duration-200"
+                        className="text-white text-2xl focus:outline-none focus:ring-2 focus:ring-blue-300 rounded transition-transform duration-200"
                         onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                        aria-label="Toggle menu"
+                        aria-label={mobileMenuOpen ? 'Cerrar menú' : 'Abrir menú'}
+                        aria-expanded={mobileMenuOpen}
+                        aria-controls="mobile-menu"
                         style={{ transform: mobileMenuOpen ? 'rotate(90deg)' : 'rotate(0deg)' }}
                     >
                         {mobileMenuOpen ? '✕' : '☰'}
@@ -133,16 +139,61 @@ export default function Header(){
                         isVisible ? 'translate-x-0 opacity-100' : 'translate-x-10 opacity-0'
                     }`}
                     style={{ transitionDelay: '400ms' }}
+                    role="navigation"
+                    aria-label="Navegación principal"
                 >
-                    <a href="#top" onClick={(e) => handleNavClick(e, 'top')} className="text-white hover:text-blue-200 transition-colors duration-300 hover:scale-105 transform">Inicio</a>
-                    <a href="#features" onClick={(e) => handleNavClick(e, 'features')} className="text-white hover:text-blue-200 transition-colors duration-300 hover:scale-105 transform">Estudios</a>
-                    <a href="#products" onClick={(e) => handleNavClick(e, 'products')} className="text-white hover:text-blue-200 transition-colors duration-300 hover:scale-105 transform">Catalogo</a>
-                    <a href="#contact" onClick={(e) => handleNavClick(e, 'contact')} className="text-white hover:text-blue-200 transition-colors duration-300 hover:scale-105 transform">Contacto</a>
-                    <Link to="/catalog" className="text-white hover:text-blue-200 transition-colors duration-300 hover:scale-105 transform">Ver todo</Link>
+                    <a href="#top" onClick={(e) => handleNavClick(e, 'top')} className="text-white hover:text-blue-200 transition-colors duration-300 hover:scale-105 transform focus:outline-none focus:ring-2 focus:ring-blue-300 rounded px-2 py-1" aria-label="Ir a inicio">Inicio</a>
+                    <a href="#features" onClick={(e) => handleNavClick(e, 'features')} className="text-white hover:text-blue-200 transition-colors duration-300 hover:scale-105 transform focus:outline-none focus:ring-2 focus:ring-blue-300 rounded px-2 py-1" aria-label="Ir a estudios">Estudios</a>
+                    <a href="#products" onClick={(e) => handleNavClick(e, 'products')} className="text-white hover:text-blue-200 transition-colors duration-300 hover:scale-105 transform focus:outline-none focus:ring-2 focus:ring-blue-300 rounded px-2 py-1" aria-label="Ir a catálogo">Catálogo</a>
+                    <a href="#contact" onClick={(e) => handleNavClick(e, 'contact')} className="text-white hover:text-blue-200 transition-colors duration-300 hover:scale-105 transform focus:outline-none focus:ring-2 focus:ring-blue-300 rounded px-2 py-1" aria-label="Ir a contacto">Contacto</a>
+                    <Link to="/catalog" className="text-white hover:text-blue-200 transition-colors duration-300 hover:scale-105 transform focus:outline-none focus:ring-2 focus:ring-blue-300 rounded px-2 py-1" aria-label="Ver catálogo completo">Ver todo</Link>
                     
                     {isAuthenticated() ? (
                         <div className="flex items-center gap-4">
                             <span className="text-white text-sm">Hola, {user?.nombre}</span>
+                            
+                            {/* Ícono de configuración solo para Admin Sistema */}
+                            {user?.tipo === "Adm. Sistema" && (
+                                <div className="relative config-dropdown">
+                                    <button
+                                        onClick={() => setConfigDropdownOpen(!configDropdownOpen)}
+                                        className="text-white hover:text-blue-200 transition-all duration-300 hover:scale-110 transform p-1 focus:outline-none focus:ring-2 focus:ring-blue-300 rounded"
+                                        aria-label="Menú de configuración de administrador"
+                                        aria-expanded={configDropdownOpen}
+                                        aria-haspopup="true"
+                                    >
+                                        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                        </svg>
+                                    </button>
+                                    
+                                    {/* Dropdown menu */}
+                                    {configDropdownOpen && (
+                                        <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50" role="menu" aria-label="Opciones de administración">
+                                            <Link
+                                                to="/admin/productos"
+                                                className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors focus:outline-none focus:bg-gray-100"
+                                                onClick={() => setConfigDropdownOpen(false)}
+                                                role="menuitem"
+                                                aria-label="Administrar productos"
+                                            >
+                                                📦 Adm. Productos
+                                            </Link>
+                                            <Link
+                                                to="/admin/categorias"
+                                                className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors focus:outline-none focus:bg-gray-100"
+                                                onClick={() => setConfigDropdownOpen(false)}
+                                                role="menuitem"
+                                                aria-label="Administrar categorías"
+                                            >
+                                                📂 Adm. Categorías
+                                            </Link>
+                                        </div>
+                                    )}
+                                </div>
+                            )}
+                            
                             <button 
                                 onClick={handleLogout}
                                 className="text-white hover:text-blue-200 transition-colors duration-300 hover:scale-105 transform"
@@ -221,6 +272,28 @@ export default function Header(){
                             <div className="py-2 border-b border-blue-800/30">
                                 <span className="text-white text-sm">👤 Hola, {user?.nombre}</span>
                             </div>
+                            
+                            {/* Opciones de configuración para Admin Sistema en móvil */}
+                            {user?.tipo === "Adm. Sistema" && (
+                                <>
+                                    <Link
+                                        to="/admin/categorias"
+                                        onClick={() => setMobileMenuOpen(false)}
+                                        className="block text-white hover:text-blue-200 transition-colors duration-300 py-2 border-b border-blue-800/30"
+                                    >
+                                        📂 Adm. Categorías
+                                    </Link>
+
+                                    <Link
+                                        to="/admin/productos"
+                                        onClick={() => setMobileMenuOpen(false)}
+                                        className="block text-white hover:text-blue-200 transition-colors duration-300 py-2 border-b border-blue-800/30"
+                                    >
+                                        📦 Adm. Productos
+                                    </Link>
+                                </>
+                            )}
+                            
                             <button 
                                 onClick={handleLogout}
                                 className="block w-full text-left text-white hover:text-blue-200 transition-colors duration-300 py-2 border-b border-blue-800/30"
