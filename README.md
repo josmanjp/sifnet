@@ -252,6 +252,12 @@ La página de inicio presenta:
 
 ### 🔧 **Panel de Administración** (Solo Administradores)
 
+### Credenciales de prueba
+Email: admin@sifnet.com
+Password: Admin1234*
+
+
+
 **Acceso**: Ícono de configuración ⚙️ en el header (solo visible para admins).
 
 ![alt text](image-16.png)
