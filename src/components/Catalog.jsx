@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 import Slider from 'react-slick'
 import { useCart } from '../context/CartContext'
 import {fetchProducts} from '../utils/api'
 import { formatPrice } from '../utils/currency'
 
 import 'slick-carousel/slick/slick.css'
-import 'slick-carousel/slick/slick-theme.css'
+import 'slick-carousel/slick/slick-theme.css' 
 
 export default function Catalog(){
     const [products, setProducts] = useState([])
@@ -90,7 +91,7 @@ export default function Catalog(){
                 <div className="max-w-6xl mx-auto px-4 md:p-6">
                     <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-2">
                         <h3 className="text-2xl md:text-3xl font-bold">Productos y Servicios</h3>
-                        <a href="/catalog" className="text-sm hover:underline" style={{ color: '#2f4870' }}>Ver todo →</a>
+                        <Link to="/catalog" className="text-sm hover:underline" style={{ color: '#2f4870' }}>Ver todo →</Link>
                     </div>
                     <div className="flex justify-center items-center h-64">
                         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
@@ -105,7 +106,7 @@ export default function Catalog(){
             <div className="max-w-6xl mx-auto px-4 md:p-6">
                 <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-2">
                     <h3 className="text-2xl md:text-3xl font-bold">Productos y Servicios</h3>
-                    <a href="/catalog" className="text-sm hover:underline" style={{ color: '#2f4870' }}>Ver todo →</a>
+                    <Link to="/catalog" className="text-sm hover:underline" style={{ color: '#2f4870' }}>Ver todo →</Link>
                 </div>
                 <div className="relative">
                     <Slider {...settings}>
