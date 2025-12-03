@@ -141,7 +141,7 @@ export default function Header(){
                     style={{ transitionDelay: '400ms' }}
                     role="navigation"
                     aria-label="Navegación principal"
-                >
+                > 
                     <a href="#top" onClick={(e) => handleNavClick(e, 'top')} className="text-white hover:text-blue-200 transition-colors duration-300 hover:scale-105 transform focus:outline-none focus:ring-2 focus:ring-blue-300 rounded px-2 py-1" aria-label="Ir a inicio">Inicio</a>
                     <a href="#features" onClick={(e) => handleNavClick(e, 'features')} className="text-white hover:text-blue-200 transition-colors duration-300 hover:scale-105 transform focus:outline-none focus:ring-2 focus:ring-blue-300 rounded px-2 py-1" aria-label="Ir a estudios">Estudios</a>
                     <a href="#products" onClick={(e) => handleNavClick(e, 'products')} className="text-white hover:text-blue-200 transition-colors duration-300 hover:scale-105 transform focus:outline-none focus:ring-2 focus:ring-blue-300 rounded px-2 py-1" aria-label="Ir a catálogo">Catálogo</a>
