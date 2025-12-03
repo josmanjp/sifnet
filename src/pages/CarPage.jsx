@@ -5,7 +5,7 @@ import LoginModal from '../components/LoginModal'
 import { useCart } from '../context/CartContext'
 import { useAuth } from '../context/AuthContext'
 import { sendOrderWhatsApp } from '../utils/api'
-
+import { formatPrice } from '../utils/currency'
 export default function CarPage(){
 const { cart, removeFromCart, clearCart } = useCart()
 const { isAuthenticated, login } = useAuth()
